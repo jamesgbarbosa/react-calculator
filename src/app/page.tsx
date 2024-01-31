@@ -9,38 +9,38 @@ function reducer(state: any, { type, payload }) {
   switch (type) {
 
     case ACTIONS.SELECT_DIGIT: {
-      if (payload.digit === "0" && state.currentOp === "0") { return state }
-      if (payload.digit === "." && state.currentOp?.includes(".")) { return state }
-      if (state.currentOp == 'Syntax Error') {
-        return { ...state, currentOp: `${payload.digit}` }
+      if (payload.digit === "0" && state.currentOperand === "0") { return state }
+      if (payload.digit === "." && state.currentOperand?.includes(".")) { return state }
+      if (state.currentOperand == 'Syntax Error') {
+        return { ...state, currentOperand: `${payload.digit}` }
       }
-      return { ...state, currentOp: `${state.currentOp || ""}${payload.digit}` }
+      return { ...state, currentOperand: `${state.currentOperand || ""}${payload.digit}` }
     }
 
     case ACTIONS.SELECT_OPERATION: {
-      if (state.currentOp == 'Syntax Error') {
+      if (state.currentOperand == 'Syntax Error') {
         return { ...state }
       }
-      if (state.operation && payload.operation & state.currentOp) {
+      if (state.operation && payload.operation && state.currentOperand) {
         return {
           ...state,
-          currentOp: null,
-          previousOp: `${evaluate(state)} ${payload.operation}`,
+          currentOperand: null,
+          previousOperand: `${evaluate(state)} ${payload.operation}`,
           operation: payload.operation
         }
       }
-      if (state.currentOp) {
-        return { ...state, previousOp: `${state.currentOp} ${payload.operation}`, currentOp: null, operation: payload.operation }
+      if (state.currentOperand) {
+        return { ...state, previousOperand: `${state.currentOperand} ${payload.operation}`, currentOperand: null, operation: payload.operation }
       }
       return { ...state }
     }
 
     case ACTIONS.EVALUATE: {
-      if (state.previousOp && state.currentOp) {
+      if (state.previousOperand && state.currentOperand) {
         return {
           ...state,
-          previousOp: null,
-          currentOp: evaluate(state),
+          previousOperand: null,
+          currentOperand: evaluate(state),
           operation: null
         }
       }
@@ -55,15 +55,15 @@ function reducer(state: any, { type, payload }) {
     }
 
     case ACTIONS.DELETE: {
-      return {...state, currentOp: state?.currentOp?.slice(0, -1)}
+      return {...state, currentOperand: state?.currentOperand?.slice(0, -1)}
     }
   }
   return state;
 }
 
 function evaluate(state) {
-  const prev = parseFloat(state.previousOp)
-  const curr = parseFloat(state.currentOp)
+  const prev = parseFloat(state.previousOperand)
+  const curr = parseFloat(state.currentOperand)
   let res = 0;
   if (isNaN(prev) || isNaN(curr)) {
     return "Syntax Error";
@@ -105,10 +105,10 @@ export default function Home() {
       <div className="calculator">
         <div className="output">
           <div className="previous-op">
-            {state.previousOp}
+            {state.previousOperand}
           </div>
           <div className="current-op">
-            {state.currentOp}
+            {state.currentOperand}
           </div>
 
         </div>
