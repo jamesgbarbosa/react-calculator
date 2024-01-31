@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background: linear-gradient(to right, purple,green);
+    background: radial-gradient(circle at 100%, #333, #333 50%, #eee 75%, #333 75%);
 }
 
 main {
@@ -28,7 +28,8 @@ main {
 }
 
 .calculator > button:hover {
-    background-color: rgba(74, 247, 232, 0.849);
+    color: white;
+    background-color: rgba(67, 73, 73, 0.849);
 }
 
 .output {
