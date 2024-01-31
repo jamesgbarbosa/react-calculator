@@ -8,6 +8,8 @@ import { OperationButton } from "./OperationButton";
 function reducer(state: any, {type, payload}) {
   switch(type) {
     case ACTIONS.SELECT_DIGIT: {
+      if (payload === "0" && state.currentOp === "0") {return state}
+      if (payload === "." && state.currentOp?.includes(".")) {return state}
       return {...state, currentOp: `${state.currentOp || ""}${payload}`}
     }
     case ACTIONS.SELECT_OPERATION: {
@@ -54,7 +56,7 @@ export default function Home() {
         <DigitButton digit="8" dispatch={dispatch} />
         <DigitButton digit="9" dispatch={dispatch} />
         <OperationButton digit="-" dispatch={dispatch}/ >
-        <OperationButton digit="." dispatch={dispatch}/ >
+        <DigitButton digit="." dispatch={dispatch}/ >
         <DigitButton digit="0" dispatch={dispatch} />
         <button className="span-2">=</button>
       </div>
