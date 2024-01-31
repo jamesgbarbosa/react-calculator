@@ -29,6 +29,20 @@ function reducer(state: any, { type, payload }) {
       }
       return { ...state }
     }
+
+    case ACTIONS.EVALUATE: {
+      if (state.previousOp && state.currentOp) {
+        return {
+          ...state,
+          previousOp: null,
+          currentOp: evaluate(state),
+          operation: null
+        }
+      }
+
+      return {...state}
+      
+    }
     
 
     case ACTIONS.CLEAR: {
@@ -70,7 +84,8 @@ export const ACTIONS = {
   SELECT_DIGIT: "select_digit",
   CLEAR: "clear",
   DELETE: "delete",
-  SELECT_OPERATION: "select_operation"
+  SELECT_OPERATION: "select_operation",
+  EVALUATE: "evaluate"
 }
 
 export default function Home() {
@@ -105,7 +120,7 @@ export default function Home() {
         <OperationButton digit="-" dispatch={dispatch} />
         <DigitButton digit="." dispatch={dispatch} />
         <DigitButton digit="0" dispatch={dispatch} />
-        <button className="span-2">=</button>
+        <button onClick={ () => dispatch({type: ACTIONS.EVALUATE})} className="span-2">=</button>
       </div>
     </main>
   );
