@@ -21,16 +21,22 @@ function reducer(state: any, { type, payload }) {
       if (state.currentOperand == 'Syntax Error') {
         return { ...state }
       }
-      if (state.operation && payload.operation && state.currentOperand) {
+      if (state.operation && payload.operation) {
+        let prev = "";
+        if (state.currentOperand) {
+          prev = evaluate(state);
+        } else {
+          prev = state.previousOperand;
+        }
         return {
           ...state,
           currentOperand: null,
-          previousOperand: `${evaluate(state)} ${payload.operation}`,
+          previousOperand: prev,
           operation: payload.operation
         }
       }
       if (state.currentOperand) {
-        return { ...state, previousOperand: `${state.currentOperand} ${payload.operation}`, currentOperand: null, operation: payload.operation }
+        return { ...state, previousOperand: `${state.currentOperand}`, currentOperand: null, operation: payload.operation }
       }
       return { ...state }
     }
@@ -105,7 +111,7 @@ export default function Home() {
       <div className="calculator">
         <div className="output">
           <div className="previous-op">
-            {state.previousOperand}
+            {state.previousOperand} {state.operation}
           </div>
           <div className="current-op">
             {state.currentOperand}
