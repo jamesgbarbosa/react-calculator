@@ -15,17 +15,55 @@ function reducer(state: any, { type, payload }) {
     }
 
     case ACTIONS.SELECT_OPERATION: {
-      if (state.currentOp) {
-        return { ...state, previousOp: `${state.currentOp} ${payload.operation}`, currentOp: null }
+      
+      if (state.operation && payload.operation) {
+        return {
+          ...state,
+          currentOp: null,
+          previousOp: `${evaluate(state)} ${payload.operation}`,
+          operation: payload.operation
+        }
       }
-      return {...state}
+      if (state.currentOp) {
+        return { ...state, previousOp: `${state.currentOp} ${payload.operation}`, currentOp: null, operation: payload.operation }
+      }
+      return { ...state }
     }
+    
 
     case ACTIONS.CLEAR: {
       return {}
     }
   }
   return state;
+}
+
+function evaluate(state) {
+  const prev = parseFloat(state.previousOp)
+  const curr = parseFloat(state.currentOp)
+  let res = 0;
+  if (isNaN(prev) || isNaN(curr)) {
+    return "";
+  }
+  switch (state.operation) {
+    case "+": {
+      res = prev + curr;
+      break;
+    }
+    case "-": {
+      res = prev - curr;
+      break;
+    }
+    case "/": {
+      res = prev / curr;
+      break;
+    }
+    case "*": {
+      res = prev * curr;
+      break;
+    }
+  }
+  return res.toString();
 }
 
 export const ACTIONS = {
