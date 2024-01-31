@@ -22,16 +22,10 @@ function reducer(state: any, { type, payload }) {
         return { ...state }
       }
       if (state.operation && payload.operation) {
-        let prev = "";
-        if (state.currentOperand) {
-          prev = evaluate(state);
-        } else {
-          prev = state.previousOperand;
-        }
         return {
           ...state,
           currentOperand: null,
-          previousOperand: prev,
+          previousOperand: `${state.currentOperand ? evaluate(state) : state.previousOperand}`,
           operation: payload.operation
         }
       }
