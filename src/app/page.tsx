@@ -53,6 +53,10 @@ function reducer(state: any, { type, payload }) {
     case ACTIONS.CLEAR: {
       return {}
     }
+
+    case ACTIONS.DELETE: {
+      return {...state, currentOp: state?.currentOp?.slice(0, -1)}
+    }
   }
   return state;
 }
@@ -109,7 +113,7 @@ export default function Home() {
 
         </div>
         <button onClick={() => dispatch({ type: ACTIONS.CLEAR })} className="span-2">AC</button>
-        <button>DEL</button>
+        <button onClick={() => dispatch({ type: ACTIONS.DELETE })}>DEL</button>
         <OperationButton digit="/" dispatch={dispatch} />
         <DigitButton digit="1" dispatch={dispatch} />
         <DigitButton digit="2" dispatch={dispatch} />
