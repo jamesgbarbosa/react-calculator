@@ -9,13 +9,18 @@ function reducer(state: any, { type, payload }) {
   switch (type) {
 
     case ACTIONS.SELECT_DIGIT: {
-      if (payload === "0" && state.currentOp === "0") { return state }
-      if (payload === "." && state.currentOp?.includes(".")) { return state }
+      if (payload.digit === "0" && state.currentOp === "0") { return state }
+      if (payload.digit === "." && state.currentOp?.includes(".")) { return state }
+      if (state.currentOp == 'Syntax Error') {
+        return { ...state, currentOp: `${payload.digit}` }
+      }
       return { ...state, currentOp: `${state.currentOp || ""}${payload.digit}` }
     }
 
     case ACTIONS.SELECT_OPERATION: {
-      
+      if (state.currentOp == 'Syntax Error') {
+        return { ...state }
+      }
       if (state.operation && payload.operation) {
         return {
           ...state,
@@ -57,7 +62,7 @@ function evaluate(state) {
   const curr = parseFloat(state.currentOp)
   let res = 0;
   if (isNaN(prev) || isNaN(curr)) {
-    return "";
+    return "Syntax Error";
   }
   switch (state.operation) {
     case "+": {
@@ -77,7 +82,7 @@ function evaluate(state) {
       break;
     }
   }
-  return res.toString();
+  return res == Infinity ? "Syntax Error": res.toString();
 }
 
 export const ACTIONS = {
