@@ -10,6 +10,9 @@ function reducer(state: any, {type, payload}) {
     case ACTIONS.SELECT_DIGIT: {
       return {...state, currentOp: `${state.currentOp || ""}${payload}`}
     }
+    case ACTIONS.SELECT_OPERATION: {
+      return {...state, previousOp: `${state.currentOp} ${payload}`, currentOp: null}
+    }
   }
   return state;
 }
