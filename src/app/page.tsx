@@ -21,7 +21,7 @@ function reducer(state: any, { type, payload }) {
       if (state.currentOp == 'Syntax Error') {
         return { ...state }
       }
-      if (state.operation && payload.operation) {
+      if (state.operation && payload.operation & state.currentOp) {
         return {
           ...state,
           currentOp: null,
