@@ -39,6 +39,8 @@ main {
     justify-content: space-between;
     align-items: flex-end;
     padding: 1rem;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .output .previous-op {
