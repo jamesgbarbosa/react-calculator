@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background: linear-gradient(to right, purple,green);
 }
 
 main {
@@ -14,19 +15,20 @@ main {
 .calculator {
     display: grid;
     grid-template-columns: repeat(4, 6rem);
-    grid-template-rows: minmax(7rem, auto) repeat(5, 6rem)
+    grid-template-rows: minmax(7rem, auto) repeat(5, 6rem);
+    border: 1px solid black;
 }
 
 .calculator > button {
     cursor: pointer;
     font-size: 2rem;
     outline: none;
-    border: 1px solid white;
+    border: 1px solid grey;
     background-color: white;
 }
 
 .calculator > button:hover {
-    background-color: rgba(11, 248, 224, 0.849);
+    background-color: rgba(74, 247, 232, 0.849);
 }
 
 .output {
